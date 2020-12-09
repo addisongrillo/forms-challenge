@@ -1,0 +1,17 @@
+#formGrid{
+    display: flex;
+    flex-direction: column;
+    
+    align-self: center;
+}
+.form-group{
+    margin: 0 auto;
+    width: 400px;
+
+}
+.formField{
+    margin-bottom: 20px;
+}
+#description{
+    height: 100px;
+}
