@@ -1,6 +1,6 @@
 import {React, useState} from 'react'
 import './form.css';
-import { TextField, Grid, Button } from '@material-ui/core';
+import { TextField, InputAdornment, Grid, Button } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { format, add } from 'date-fns'
 
@@ -117,7 +117,7 @@ function Form(props) {
                     data-testid='ticket-input' 
                     id="ticket" 
                     label="Ticket Name" 
-                    variant="outlined" />
+                    variant="outlined"/>
                 </div>
                 <TextField
                 error={descriptionError} 
@@ -131,7 +131,10 @@ function Form(props) {
                 data-testid='description-input' 
                 id="description" 
                 label="Description" v
-                variant="outlined" />
+                variant="outlined"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">{selectedDescription.length}/100</InputAdornment>,
+                }}  />
                 <div id="dateTimePickers">
                     <KeyboardDatePicker
                     className="formField"
