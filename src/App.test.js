@@ -8,11 +8,11 @@ test('Displays form with required fields', ()=>{
     render(<App/>)
 
     expect(screen.getByTestId('form')).toBeTruthy()
-    expect(screen.getByText('Ticket Name:'))
-    expect(screen.getByText('Description:'))
-    expect(screen.getByText('Date:'))
-    expect(screen.getByText('Start Time:'))
-    expect(screen.getByText('End Time:'))
+    expect(screen.getAllByText('Ticket Name:'))
+    expect(screen.getAllByText('Description:'))
+    expect(screen.getAllByText('Date:'))
+    expect(screen.getAllByText('Start Time:'))
+    expect(screen.getAllByText('End Time:'))
 })
 
 
@@ -28,7 +28,7 @@ test('Ticket Name cannot exceed more than 10 characters', ()=>{
 test('Description cannot exceed more than 100 characters', ()=>{
     
     render(<App/>)
-    const exceedCharValue = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m'
+    const exceedCharValue = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean mm'
     
     fireEvent.change(screen.getByTestId(/description-input/i), {target: {value: exceedCharValue}})
 

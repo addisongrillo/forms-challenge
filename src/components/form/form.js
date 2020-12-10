@@ -29,25 +29,26 @@ function Form(props) {
 
   //onChange Functions
   const handleTicketChange = (event) => {
-    if (event.target.value.length<=10 && re.test(event.target.value)){
-      setTicketError(false)
-      setSelectedTicket(event.target.value);
-    }else{
+    if (event.target.value.length<=10 && re.test(event.target.value) === false){
       setTicketError(true)
+      setSelectedTicket(event.target.value);
+    }else if(event.target.value.length<=10){
+      setTicketError(false)
       setSelectedTicket(event.target.value);
     }
     
   };
   const handleDescriptionChange = (event) => {
-    if (event.target.value.length<=100 && re.test(event.target.value)){
-        setSelectedDescription(event.target.value);
-        setDescriptionError(false)
-    }else{
+    if(event.target.value.length<=100 && re.test(event.target.value) === false){
         setSelectedDescription(event.target.value);
         setDescriptionError(true)
+    }else if(event.target.value.length<=100){
+        setSelectedDescription(event.target.value);
+        setDescriptionError(false)
     }
   };
   const handleDateChange = (date) => {
+    console.log(date)
     setSelectedDate(date);
   };
   const handleStartTimeChange = (time) => {
@@ -114,9 +115,9 @@ function Form(props) {
                     onChange={handleTicketChange}
                     helperText= "(max 10 characters, alphanumeric characters and -) example APP-120"
                     className="formField" 
-                    data-testid='ticket-input' 
+                    inputProps={{ "data-testid": 'ticket-input' }} 
                     id="ticket" 
-                    label="Ticket Name" 
+                    label="Ticket Name:" 
                     variant="outlined"/>
                 </div>
                 <TextField
@@ -128,9 +129,9 @@ function Form(props) {
                 multiline
                 rowsMax={4}
                 className="formField" 
-                data-testid='description-input' 
+                inputProps={{ "data-testid": 'description-input' }}  
                 id="description" 
-                label="Description" v
+                label="Description:" v
                 variant="outlined"
                 InputProps={{
                   endAdornment: <InputAdornment position="end">{selectedDescription.length}/100</InputAdornment>,
@@ -138,13 +139,13 @@ function Form(props) {
                 <div id="dateTimePickers">
                     <KeyboardDatePicker
                     className="formField"
-                    data-testid='date-input'
+                    inputProps={{ "data-testid": 'date-input' }}  
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
                     margin="normal"
                     id="Date"
-                    label="Date"
+                    label="Date:"
                     value={selectedDate}
                     onChange={handleDateChange}
                     KeyboardButtonProps={{
@@ -154,10 +155,10 @@ function Form(props) {
 
                     <KeyboardTimePicker
                     className="formField"
-                    data-testid='startTime-input'
+                    inputProps={{ "data-testid": 'startTime-input' }}  
                     margin="normal"
                     id="startTime"
-                    label="Start Time"
+                    label="Start Time:"
                     value={selectedStartTime}
                     onChange={handleStartTimeChange}
                     KeyboardButtonProps={{
@@ -167,10 +168,10 @@ function Form(props) {
 
                     <KeyboardTimePicker
                     className="formField"
-                    data-testid='endTime-input'
+                    inputProps={{ "data-testid": 'endTime-input' }}  
                     margin="normal"
                     id="endTime"
-                    label="End Time"
+                    label="End Time:"
                     value={selectedEndTime}
                     onChange={handleEndTimeChange}
                     KeyboardButtonProps={{
