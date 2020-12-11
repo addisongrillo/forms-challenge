@@ -131,7 +131,7 @@ function Form(props) {
                 className="formField" 
                 inputProps={{ "data-testid": 'description-input' }}  
                 id="description" 
-                label="Description:" v
+                label="Description:"
                 variant="outlined"
                 InputProps={{
                   endAdornment: <InputAdornment position="end">{selectedDescription.length}/100</InputAdornment>,
@@ -179,7 +179,7 @@ function Form(props) {
                     }}
                     />
                 </div>
-                <Button variant="contained" onClick={handleSubmit} color="primary">Submit</Button>
+                <Button data-testid="submit" variant="contained" onClick={handleSubmit} color="primary">Submit</Button>
          </Grid>
         </MuiPickersUtilsProvider>
 
