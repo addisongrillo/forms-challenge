@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import './App.css';
 import Form from './components/form/form';
 import Results from './components/results/results';
@@ -20,7 +20,7 @@ function App() {
       <h1 id="title">Jira Ticket Logger</h1>
       <div id="container">
         <Form updateFormContent={updateFormContent} />
-        <Results formContent={formContent} timeDiff={timeDiff}/>
+        <Results formContent={formContent} timeDiff={timeDiff} />
       </div>
     </div>
   );

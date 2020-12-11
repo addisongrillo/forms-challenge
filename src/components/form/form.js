@@ -1,4 +1,4 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
 import './form.css';
 import { TextField, InputAdornment, Grid, Button } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -7,10 +7,10 @@ import { format, add } from 'date-fns'
 import 'date-fns';
 
 import {
-    MuiPickersUtilsProvider,
-    KeyboardTimePicker,
-    KeyboardDatePicker,
-  } from '@material-ui/pickers';
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 
 
@@ -29,22 +29,22 @@ function Form(props) {
 
   //onChange Functions
   const handleTicketChange = (event) => {
-    if (event.target.value.length<=10 && re.test(event.target.value) === false){
+    if (event.target.value.length <= 10 && re.test(event.target.value) === false) {
       setTicketError(true)
       setSelectedTicket(event.target.value);
-    }else if(event.target.value.length<=10){
+    } else if (event.target.value.length <= 10) {
       setTicketError(false)
       setSelectedTicket(event.target.value);
     }
-    
+
   };
   const handleDescriptionChange = (event) => {
-    if(event.target.value.length<=100 && re.test(event.target.value) === false){
-        setSelectedDescription(event.target.value);
-        setDescriptionError(true)
-    }else if(event.target.value.length<=100){
-        setSelectedDescription(event.target.value);
-        setDescriptionError(false)
+    if (event.target.value.length <= 100 && re.test(event.target.value) === false) {
+      setSelectedDescription(event.target.value);
+      setDescriptionError(true)
+    } else if (event.target.value.length <= 100) {
+      setSelectedDescription(event.target.value);
+      setDescriptionError(false)
     }
   };
   const handleDateChange = (date) => {
@@ -60,130 +60,130 @@ function Form(props) {
 
   //submit form
   const handleSubmit = () => {
-      if(!ticketError && !descriptionError){
-        const formContentObj={
-            'Ticket Name':selectedTicket,
-            'Description':selectedDescription,
-            'Date':format(selectedDate, 'MM/dd/yyyy'),
-            'Start Time':format(selectedStartTime,'hh:mma'),
-            'End Time':format(selectedEndTime,'hh:mma')
-        }
-        //setting end time to variable to avoid asynchronous issues
-        let newEnd=selectedEndTime
-        if (selectedEndTime < selectedStartTime){
-            newEnd=add(selectedEndTime,{days:1});
-        }
-        //calculating difference between 2 times and formatting accordingly
-        let diff = (newEnd-selectedStartTime)
-        let hrs = Math.floor((diff % 86400000) / 3600000)
-        let mins = Math.round(((diff % 86400000) % 3600000) / 60000)
-        let diffStr=''
-        //logic for pluralizinf hours and minutes
-        let hPlural = Math.abs(hrs) === 1 ? ' hour':' hours'
-        let mPlural = Math.abs(mins) === 1 ? ' minute':' minutes'
-        
-        if(hrs === 0 && mins === 0){
-            diffStr='0 minutes'
-        }else if(hrs === 0 && mins > 0){
-            diffStr=mins + mPlural
-        }else if(hrs > 0 && mins === 0){
-            diffStr=hrs + hPlural
-        }else{
-            diffStr = hrs + hPlural + ' and ' + mins + mPlural
-        }
-        props.updateFormContent(formContentObj, diffStr)
-    }else{
-        alert("Please format the ticket name and description correctly.\n\nTicket Name: max 10 characters, alphanumeric characters and - example APP-120 \nDescription: max 100 characters, alphanumeric characters and - description of the work.")
+    if (!ticketError && !descriptionError) {
+      const formContentObj = {
+        'Ticket Name': selectedTicket,
+        'Description': selectedDescription,
+        'Date': format(selectedDate, 'MM/dd/yyyy'),
+        'Start Time': format(selectedStartTime, 'hh:mma'),
+        'End Time': format(selectedEndTime, 'hh:mma')
+      }
+      //setting end time to variable to avoid asynchronous issues
+      let newEnd = selectedEndTime
+      if (selectedEndTime < selectedStartTime) {
+        newEnd = add(selectedEndTime, { days: 1 });
+      }
+      //calculating difference between 2 times and formatting accordingly
+      let diff = (newEnd - selectedStartTime)
+      let hrs = Math.floor((diff % 86400000) / 3600000)
+      let mins = Math.round(((diff % 86400000) % 3600000) / 60000)
+      let diffStr = ''
+      //logic for pluralizinf hours and minutes
+      let hPlural = Math.abs(hrs) === 1 ? ' hour' : ' hours'
+      let mPlural = Math.abs(mins) === 1 ? ' minute' : ' minutes'
+
+      if (hrs === 0 && mins === 0) {
+        diffStr = '0 minutes'
+      } else if (hrs === 0 && mins > 0) {
+        diffStr = mins + mPlural
+      } else if (hrs > 0 && mins === 0) {
+        diffStr = hrs + hPlural
+      } else {
+        diffStr = hrs + hPlural + ' and ' + mins + mPlural
+      }
+      props.updateFormContent(formContentObj, diffStr)
+    } else {
+      alert("Please format the ticket name and description correctly.\n\nTicket Name: max 10 characters, alphanumeric characters and - example APP-120 \nDescription: max 100 characters, alphanumeric characters and - description of the work.")
     }
   }
 
- 
+
 
   return (
     <div className="Form">
       <form data-testid='form' className='form-group'>
 
-        
+
 
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid id="formGrid" container >
-                <div id="ticketContainer">
-                    <TextField 
-                    error={ticketError}
-                    value={selectedTicket}
-                    autoComplete='off'  
-                    onChange={handleTicketChange}
-                    helperText= "(max 10 characters, alphanumeric characters and -) example APP-120"
-                    className="formField" 
-                    inputProps={{ "data-testid": 'ticket-input' }} 
-                    id="ticket" 
-                    label="Ticket Name:" 
-                    variant="outlined"/>
-                </div>
-                <TextField
-                error={descriptionError} 
-                value={selectedDescription}
-                onChange={handleDescriptionChange}
-                helperText= "(max 100 characters, alphanumeric characters and -) description of the work."
-                autoComplete='off' 
-                multiline
-                rowsMax={4}
-                className="formField" 
-                inputProps={{ "data-testid": 'description-input' }}  
-                id="description" 
-                label="Description:"
-                variant="outlined"
-                InputProps={{
-                  endAdornment: <InputAdornment position="end">{selectedDescription.length}/100</InputAdornment>,
-                }}  />
-                <div id="dateTimePickers">
-                    <KeyboardDatePicker
-                    className="formField"
-                    inputProps={{ "data-testid": 'date-input' }}  
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="Date"
-                    label="Date:"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change date',
-                    }}
-                    />
+          <Grid id="formGrid" container >
+            <div id="ticketContainer">
+              <TextField
+                error={ticketError}
+                value={selectedTicket}
+                autoComplete='off'
+                onChange={handleTicketChange}
+                helperText="(max 10 characters, alphanumeric characters and -) example APP-120"
+                className="formField"
+                inputProps={{ "data-testid": 'ticket-input' }}
+                id="ticket"
+                label="Ticket Name:"
+                variant="outlined" />
+            </div>
+            <TextField
+              error={descriptionError}
+              value={selectedDescription}
+              onChange={handleDescriptionChange}
+              helperText="(max 100 characters, alphanumeric characters and -) description of the work."
+              autoComplete='off'
+              multiline
+              rowsMax={4}
+              className="formField"
+              inputProps={{ "data-testid": 'description-input' }}
+              id="description"
+              label="Description:"
+              variant="outlined"
+              InputProps={{
+                endAdornment: <InputAdornment position="end">{selectedDescription.length}/100</InputAdornment>,
+              }} />
+            <div id="dateTimePickers">
+              <KeyboardDatePicker
+                className="formField"
+                inputProps={{ "data-testid": 'date-input' }}
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="Date"
+                label="Date:"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
 
-                    <KeyboardTimePicker
-                    className="formField"
-                    inputProps={{ "data-testid": 'startTime-input' }}  
-                    margin="normal"
-                    id="startTime"
-                    label="Start Time:"
-                    value={selectedStartTime}
-                    onChange={handleStartTimeChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change time',
-                    }}
-                    />
+              <KeyboardTimePicker
+                className="formField"
+                inputProps={{ "data-testid": 'startTime-input' }}
+                margin="normal"
+                id="startTime"
+                label="Start Time:"
+                value={selectedStartTime}
+                onChange={handleStartTimeChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change time',
+                }}
+              />
 
-                    <KeyboardTimePicker
-                    className="formField"
-                    inputProps={{ "data-testid": 'endTime-input' }}  
-                    margin="normal"
-                    id="endTime"
-                    label="End Time:"
-                    value={selectedEndTime}
-                    onChange={handleEndTimeChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change time',
-                    }}
-                    />
-                </div>
-                <Button data-testid="submit" variant="contained" onClick={handleSubmit} color="primary">Submit</Button>
-         </Grid>
+              <KeyboardTimePicker
+                className="formField"
+                inputProps={{ "data-testid": 'endTime-input' }}
+                margin="normal"
+                id="endTime"
+                label="End Time:"
+                value={selectedEndTime}
+                onChange={handleEndTimeChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change time',
+                }}
+              />
+            </div>
+            <Button data-testid="submit" variant="contained" onClick={handleSubmit} color="primary">Submit</Button>
+          </Grid>
         </MuiPickersUtilsProvider>
 
-        
+
       </form>
     </div>
   );
